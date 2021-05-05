@@ -5,7 +5,7 @@ Experimental SQLAlchemy dialect for IBM Informix
 ## Installation
 
 ```
-pip install pyinformix
+pip install PyInformix
 ```
 
 ## Usage
