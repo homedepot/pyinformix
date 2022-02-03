@@ -231,7 +231,9 @@ class InformixExecutionContext(_SelectLastRowIDMixin, default.DefaultExecutionCo
 
 
 class InformixDialect(DB2Dialect):
-    name = 'ifx'
+    driver = 'ifx'
+    supports_statement_cache = False
+
     ischema_names = ischema_names
 
     statement_compiler = InformixCompiler
@@ -247,6 +249,22 @@ class InformixDialect(DB2Dialect):
         'REPEATABLE READ'
     ])
 
+    @classmethod
+    def dbapi(cls):
+        """ Returns: the underlying DBAPI driver module
+        """
+        import ibm_db_dbi as module
+        return module
+
+    def create_connect_args(self, url):
+        dsn = 'SERVICE=%s' % url.port
+
+        kwargs = {}
+
+        kwargs.update(url.query)
+
+        return ((dsn, url.username, url.password, url.host, url.database), kwargs)
+
     def set_isolation_level(self, connection, level):
         if level is None:
             level = self.default_isolation_level
@@ -260,7 +278,7 @@ class InformixDialect(DB2Dialect):
             raise ArgumentError(
                 "Invalid value '%s' for isolation_level. "
                 "Valid isolation levels for %s are %s" %
-                (level, self.name, ', '.join(self._isolation_lookup))
+                (level, self.driver, ', '.join(self._isolation_lookup))
             )
 
         cursor = connection.cursor()

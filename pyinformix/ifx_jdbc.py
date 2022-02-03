@@ -11,7 +11,8 @@ colspecs = util.update_copy(
 
 
 class InformixJDBCDialect(BaseDialect, InformixDialect):
-    name = 'ifx_jdbc'
+    driver = 'ifx_jdbc'
+    supports_statement_cache = False
 
     jdbc_db_name = 'informix-sqli'
     jdbc_driver_name = 'com.informix.jdbc.IfxDriver'

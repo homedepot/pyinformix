@@ -25,7 +25,7 @@ engine = create_engine('informix+ibm_db://{username}:{password}@{hostname}:{port
 ```python
 from sqlalchemy.engine import create_engine
 
-engine = create_engine('informix+ifx_jdbc://{hostname}:{port}/{database};INFORMIXSERVER={server};user={username};password={password}')
+engine = create_engine('informix+ifx_jdbc://{hostname}:{port}/{database};INFORMIXSERVER={server};delimident=y;user={username};password={password}')
 ```
 
 Export CLASSPATH environment variable:
